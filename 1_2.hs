@@ -1,7 +1,5 @@
-import Control.Arrow (Arrow (second))
 import Data.Char (digitToInt, isDigit)
 import Data.Foldable (find)
-import Data.Function ((&))
 import Data.List (isPrefixOf, tails)
 import Data.Maybe (catMaybes, listToMaybe)
 
