@@ -14,26 +14,28 @@ solve input = sum setPowers
   where
     setPowers = map (powerOfSet . minSet . parseGame) $ lines input
 
-powerOfSet (Red r, Green g, Blue b) = r * g * b 
+powerOfSet (Red r, Green g, Blue b) = r * g * b
 
+-- >>> minSet [Red 1, Blue 2, Green 3]
+-- (Red 1,Green 4,Blue 2)
+--
 minSet :: [Cube] -> (Cube, Cube, Cube)
-minSet cubes = minSet' cubes (Red 0, Green 0, Blue 0)
+minSet = foldr minSet' (Red 0, Green 0, Blue 0)
   where
-    minSet' [] mins = mins
-    minSet' (c : cs) (r, g, b) =
+    minSet' c (r, g, b) =
       case c of
-        Red n -> 
-          if n > getIntValue r 
-          then minSet' cs (Red n, g, b) 
-          else minSet' cs (r, g, b)
-        Green n -> 
-          if n > getIntValue g 
-          then minSet' cs (r, Green n, b) 
-          else minSet' cs (r, g, b)
-        Blue n -> 
-          if n > getIntValue b 
-          then minSet' cs (r, g, Blue n) 
-          else minSet' cs (r, g, b)
+        Red n ->
+          if n > getIntValue r
+          then (Red n, g, b)
+          else (r, g, b)
+        Green n ->
+          if n > getIntValue g
+          then (r, Green n, b)
+          else (r, g, b)
+        Blue n ->
+          if n > getIntValue b
+          then (r, g, Blue n)
+          else (r, g, b)
 
 getIntValue :: Cube -> Int
 getIntValue cube = case cube of
